@@ -1,8 +1,10 @@
-const ItemListContainer = () => {
+import '../css/ItemListContainer.css'
+
+const ItemListContainer = ({saludo}) => {
     return (
-        <div>
-            <h1>{props.saludo}</h1>
-        </div>
+        <section className="item-list-container">
+            <h2>{saludo}</h2>
+        </section>
     )
 }
 

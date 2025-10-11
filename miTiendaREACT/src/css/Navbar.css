@@ -1,8 +1,39 @@
-.nav-container {
-    background-color: #333;
-    padding: 2rem;
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #0d6efd;
+    color: white;
+    padding: 1rem 2rem;
 }
 
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.store-icon {
+    font-size: 1.8rem;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.2rem;
+    list-style: none;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}

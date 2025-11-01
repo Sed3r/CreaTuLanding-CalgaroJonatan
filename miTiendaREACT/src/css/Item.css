@@ -1,0 +1,23 @@
+.item-card {
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    padding: 1rem;
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.item-card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.detail-btn {
+    display: inline-block;
+    margin-top: 10px;
+    background-color: #00d9ff;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}

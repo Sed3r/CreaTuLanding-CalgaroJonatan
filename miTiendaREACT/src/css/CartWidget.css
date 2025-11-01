@@ -1,24 +1,15 @@
 .cart-widget {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 1.3rem;
-    cursor: pointer;
     position: relative;
-}
-
-.cart-icon {
-    font-size: 1.6rem;
+    cursor: pointer;
 }
 
 .cart-count {
-    background: white;
-    color: #0d6efd;
-    border-radius: 50%;
-    padding: 0.2rem 0.5rem;
-    font-size: 0.8rem;
-    font-weight: bold;
     position: absolute;
-    top: -6px;
+    top: -8px;
     right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    padding: 2px 5px;
 }

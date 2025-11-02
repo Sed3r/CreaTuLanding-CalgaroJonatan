@@ -1,30 +1,46 @@
 .item-count {
+    margin-top: 1.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
-    margin-top: 1rem;
 }
 
 .controls {
     display: flex;
     align-items: center;
     gap: 1rem;
+    margin-bottom: 0.8rem;
 }
 
 .controls button {
-    background-color: #00d9ff;
+    background-color: #03e9f4;
+    color: #121212;
     border: none;
-    padding: 5px 10px;
+    border-radius: 5px;
+    width: 35px;
+    height: 35px;
+    font-size: 1.2rem;
     cursor: pointer;
-    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+}
+
+.controls button:hover {
+    background-color: #00bcd4;
+    color: #fff;
 }
 
 .add-btn {
-    background-color: #00d9ff;
+    background-color: #03e9f4;
+    color: #121212;
     border: none;
-    padding: 8px 15px;
+    padding: 0.6rem 1.5rem;
     border-radius: 5px;
     font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-btn:hover {
+    background-color: #00bcd4;
+    color: #fff;
 }

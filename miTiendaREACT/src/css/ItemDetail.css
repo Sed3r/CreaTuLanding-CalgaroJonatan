@@ -1,0 +1,35 @@
+.item-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: #fff;
+    background-color: #111;
+    border-radius: 12px;
+    max-width: 800px;
+    margin: 2rem auto;
+}
+
+.item-detail-image {
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.item-detail-info {
+    text-align: center;
+}
+
+.description {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 1rem 0;
+}
+
+.price {
+    color: #00e0ff;
+    font-weight: bold;
+    font-size: 1.3rem;
+}

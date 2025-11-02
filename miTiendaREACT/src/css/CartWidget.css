@@ -1,15 +1,16 @@
 .cart-widget {
     position: relative;
-    cursor: pointer;
+    color: white;
 }
 
 .cart-count {
     position: absolute;
     top: -8px;
     right: -10px;
-    background-color: red;
-    color: white;
+    background: #00ffff;
+    color: black;
     border-radius: 50%;
-    font-size: 0.8rem;
-    padding: 2px 5px;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: bold;
 }

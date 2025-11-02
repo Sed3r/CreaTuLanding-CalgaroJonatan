@@ -1,13 +1,18 @@
-import { FaShoppingCart } from "react-icons/fa";
+import { ShoppingCart } from "lucide-react";
+import { useCart } from "../context/CartContext";
+import { Link } from "react-router-dom";
 import "../css/CartWidget.css";
 
 function CartWidget() {
+    const { totalItems } = useCart();
+
     return (
-        <div className="cart-widget">
-            <FaShoppingCart size={22} color="white" />
-        <span className="cart-count">3</span>
-    </div>
+        <Link to="/cart" className="cart-widget">
+            <ShoppingCart size={28} />
+            {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
+        </Link>
     );
 }
 
 export default CartWidget;
+

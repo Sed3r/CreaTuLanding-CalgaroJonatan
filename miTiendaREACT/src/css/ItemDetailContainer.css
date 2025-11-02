@@ -1,26 +1,55 @@
 .detail-container {
     display: flex;
-    gap: 2rem;
-    align-items: center;
+    flex-wrap: wrap;
     justify-content: center;
-    padding: 2rem;
-    color: black;
+    align-items: flex-start;
+    padding: 3rem;
+    background-color: #181818;
+    color: #fff;
+    gap: 2rem;
+    min-height: 80vh;
 }
 
 .detail-container img {
     width: 300px;
     border-radius: 10px;
+    box-shadow: 0 0 15px rgba(3, 233, 244, 0.3);
+    object-fit: cover;
 }
 
 .detail-info {
     max-width: 400px;
 }
 
-.buy-btn {
-    background-color: #00d9ff;
-    border: none;
-    padding: 10px 20px;
+.detail-info h2 {
+    font-size: 1.8rem;
+    color: #03e9f4;
+}
+
+.detail-info .price {
+    color: #03e9f4;
     font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
+    margin-top: 0.5rem;
+}
+
+.detail-info .description {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    display: block;
+    line-height: 1.5;
+}
+
+.loading {
+    text-align: center;
+    color: #03e9f4;
+    font-size: 1.2rem;
+    padding-top: 3rem;
+}
+
+.category {
+    color: #aaa;
+    font-size: 0.95rem;
+    margin-top: 0.3rem;
+    font-style: italic;
 }

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getGames } from "../mock/AsyncService";
 import "../css/ItemListContainer.css";
+import { collection, getDocs, where, query } from "firebase/firestore";
+import { db } from "../service/firebase.jsx";
 
 function ItemListContainer() {
     const [games, setGames] = useState([]);
@@ -9,13 +10,35 @@ function ItemListContainer() {
     const { categoryId } = useParams();
 
     useEffect(() => {
-    setLoading(true);
-    getGames(categoryId)
-        .then((data) => setGames(data))
+        setLoading(true);
+
+    const gamesCollection = categoryId
+        ? query(collection(db, "games"), where("category", "==", categoryId))
+        : collection(db, "games");
+
+    getDocs(gamesCollection)
+        .then((res) => {
+        const gamesList = res.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+        setGames(gamesList);
+        })
         .finally(() => setLoading(false));
     }, [categoryId]);
 
-    if (loading) return <p className="loading">Cargando juegos...</p>;
+
+
+    // useEffect(() => {
+    //     setLoading(true);
+    //     getGames(categoryId)
+    //         .then((data) => setGames(data))
+    //         .finally(() => setLoading(false));
+    // }, [categoryId]);
+
+    // if (loading) return <p className="loading">Cargando juegos...</p>;
+
+
 
     return (
         <div className="item-list-container">

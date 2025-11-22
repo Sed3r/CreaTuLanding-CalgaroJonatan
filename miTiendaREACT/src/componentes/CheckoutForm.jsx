@@ -1,103 +1,162 @@
 import { useState } from "react";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../service/firebase.jsx";
 import { useCart } from "../context/CartContext";
+import { db } from "../service/firebase.jsx";
+import { collection, addDoc, writeBatch, getDocs, query, where, documentId } from "firebase/firestore";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 import "../css/CheckoutForm.css";
 
-function CheckoutForm() {
-    const { cart, clearCart } = useCart();
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [orderId, setOrderId] = useState(null);
-    const [loading, setLoading] = useState(false);
+const CheckoutForm = () => {
+    const navigate = useNavigate();
+    const { cart, totalPrice, clearCart } = useCart();
 
-    const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const [nombre, setNombre] = useState("");
+    const [email, setEmail] = useState("");
+    const [telefono, setTelefono] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!name.trim() || !email.trim() || !phone.trim()) {
-            alert("Por favor completa todos los campos.");
+        if (!nombre.trim() || !email.trim() || !telefono.trim()) {
+            Swal.fire({
+                title: "Campos incompletos",
+                text: "Por favor completá todos los campos.",
+                icon: "warning",
+            });
             return;
         }
 
         setLoading(true);
 
-        try {
-            const order = {
-                buyer: { name, email, phone },
-                items: cart,
-                total,
-                date: serverTimestamp(),
-            };
+        const orden = {
+            cliente: { nombre, email, telefono },
+            items: cart.map((item) => ({
+                id: item.id,
+                title: item.title,
+                price: item.price,
+                quantity: item.quantity,
+            })),
+            total: totalPrice,
+            fecha: new Date(),
+        };
 
-            const docRef = await addDoc(collection(db, "orders"), order);
-            setOrderId(docRef.id);
+        try {
+            const batch = writeBatch(db);
+            const productosRef = collection(db, "products");
+            const ids = cart.map((p) => p.id);
+
+            const productosFirestore = await getDocs(
+                query(productosRef, where(documentId(), "in", ids))
+            );
+
+            const sinStock = [];
+
+            productosFirestore.docs.forEach((docSnap) => {
+                const data = docSnap.data();
+                const itemInCart = cart.find((p) => p.id === docSnap.id);
+
+                if (!data) {
+                    sinStock.push({
+                        nombre: itemInCart.title,
+                        motivo: "este producto ya no existe",
+                    });
+                    return;
+                }
+
+                if (data.stock >= itemInCart.quantity) {
+                    batch.update(docSnap.ref, {
+                        stock: data.stock - itemInCart.quantity,
+                    });
+                } else {
+                    sinStock.push({
+                        nombre: data.title,
+                        motivo: `stock insuficiente (quedan ${data.stock})`,
+                    });
+                }
+            });
+
+            if (sinStock.length > 0) {
+                setLoading(false);
+
+                Swal.fire({
+                    title: "No se pudo completar la compra",
+                    html: sinStock.map((p) => `${p.nombre}: ${p.motivo}`).join("<br>"),
+                    icon: "error",
+                });
+
+                return;
+            }
+
+            await batch.commit();
+
+            const ordenRef = await addDoc(collection(db, "orders"), orden);
+
             clearCart();
-        } catch (error) {
-            console.error("Error creando la orden: ", error);
-        } finally {
             setLoading(false);
+
+            Swal.fire({
+                title: "¡Compra realizada!",
+                html: `
+                    <p>Tu número de orden es:</p>
+                    <h2><b>${ordenRef.id}</b></h2>
+                    <p>Serás redirigido en 4 segundos...</p>
+                `,
+                icon: "success",
+                timer: 4000,
+                timerProgressBar: true,
+                willClose: () => navigate("/"),
+            });
+
+            setNombre("");
+            setEmail("");
+            setTelefono("");
+
+        } catch (error) {
+            setLoading(false);
+            Swal.fire({
+                title: "Error inesperado",
+                text: "Ocurrió un error procesando la compra.",
+                icon: "error",
+            });
         }
     };
 
-    if (orderId) {
-        return (
-            <div className="order-success">
-                <h2>¡Compra realizada con éxito! 🎉</h2>
-                <p>Tu ID de orden es:</p>
-                <strong className="order-id">{orderId}</strong>
-            </div>
-        );
-    }
-
-    if (cart.length === 0) {
-        return <p className="empty-cart">Tu carrito está vacío 🛒</p>;
-    }
-
     return (
         <div className="checkout-container">
-            <h2>Finalizar compra</h2>
+            <h2 className="checkout-title">Finalizar Compra</h2>
 
-            <div className="summary">
-                <h3>Resumen:</h3>
-                {cart.map((item) => (
-                    <p key={item.id}>
-                        {item.title} x {item.quantity} → ${item.price * item.quantity}
-                    </p>
-                ))}
-                <h3>Total: ${total}</h3>
-            </div>
-
-            <form className="checkout-form" onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <input
+                    className="checkout-input"
                     type="text"
-                    placeholder="Nombre completo"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Nombre"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
                 />
 
                 <input
+                    className="checkout-input"
                     type="email"
-                    placeholder="Correo electrónico"
+                    placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
 
                 <input
-                    type="tel"
+                    className="checkout-input"
+                    type="text"
                     placeholder="Teléfono"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    value={telefono}
+                    onChange={(e) => setTelefono(e.target.value)}
                 />
 
-                <button type="submit" disabled={loading}>
+                <button className="checkout-btn" type="submit" disabled={loading}>
                     {loading ? "Procesando..." : "Confirmar compra"}
                 </button>
             </form>
         </div>
     );
-}
+};
 
 export default CheckoutForm;

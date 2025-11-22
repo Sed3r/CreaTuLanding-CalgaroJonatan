@@ -28,18 +28,6 @@ function ItemListContainer() {
     }, [categoryId]);
 
 
-
-    // useEffect(() => {
-    //     setLoading(true);
-    //     getGames(categoryId)
-    //         .then((data) => setGames(data))
-    //         .finally(() => setLoading(false));
-    // }, [categoryId]);
-
-    // if (loading) return <p className="loading">Cargando juegos...</p>;
-
-
-
     return (
         <div className="item-list-container">
             {games.map((game) => (

@@ -1,16 +1,112 @@
-# React + Vite
+AfterWork Store
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+AfterWork Store es una Single Page Application (SPA) desarrollada en React, que simula una tienda online con catálogo de productos, detalle individual, carrito de compras y proceso de checkout con generación de órdenes en Firebase.
 
-Currently, two official plugins are available:
+Este proyecto fue desarrollado como entrega final del curso de React (Coderhouse).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🚀 Características principales
 
-## React Compiler
+🛍️ Catálogo dinámico
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Listado de productos cargados desde Firestore.
 
-## Expanding the ESLint configuration
+- Vista detallada con imágenes, descripción, precio y stock.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+➕ Carrito de compras
+
+- Manejo global del estado usando Context API.
+
+- Cálculo automático de subtotales y total.
+
+- Control de cantidades y validación de stock.
+
+🧮 ItemCount
+
+- Selector de unidades con límite por stock.
+
+- Se oculta luego de agregar al carrito.
+
+🧭 Navegación
+
+- Implementada con React Router.
+
+- Rutas: Inicio, Categorías, Detalle, Carrito y Checkout.
+
+- Navegación sin recargas (SPA).
+
+🧾 Checkout
+
+- Formulario de datos del comprador.
+
+- Validaciones básicas.
+
+- Actualización del stock en Firebase.
+
+- Generación de documento “orders” en Firestore.
+
+- SweetAlert con ID de la compra.
+
+🔥 Firebase
+
+- Firestore como base de datos.
+
+- Colección games
+
+- Colección orders para registrar compras
+
+📦 Tecnologías utilizadas
+
+- React
+
+- React Router DOM
+
+- Context API
+
+- Firebase / Firestore
+
+- CSS
+
+- SweetAlert2
+
+- Vite
+
+📁 Estructura del proyecto (simplificada)
+
+src/
+ ├─ componentes/
+ │   ├─ NavBar.jsx
+ │   ├─ CartWidget.jsx
+ │   ├─ ItemListContainer.jsx
+ │   ├─ ItemList.jsx
+ │   ├─ Item.jsx
+ │   ├─ ItemDetailContainer.jsx
+ │   ├─ ItemDetail.jsx
+ │   ├─ ItemCount.jsx
+ │   ├─ Cart.jsx
+ │   ├─ CartItem.jsx
+ │   └─ CheckoutForm.jsx
+ ├─ context/
+ │   └─ CartContext.jsx
+ ├─ service/
+ │   └─ firebase.jsx
+ ├─ css/
+ │   └─ (estilos varios)
+ └─ App.jsx
+
+
+📚 Documentación extra
+
+Este proyecto incluye todos los requisitos solicitados en la entrega final del curso, como:
+✔ Catálogo dinámico
+✔ Detalles
+✔ Carrito
+✔ Context
+✔ Firestore
+✔ Checkout
+✔ Orden generada
+✔ Renderizado condicional
+✔ Buenas prácticas de componentes y estructura
+
+👤 Autor
+
+Desarrollado por Jonatan Calgaro.
